@@ -129,6 +129,8 @@ import re
 import collections
 from urllib.parse import urlsplit
 
+import six
+
 from eventlet.green import http, os, socket
 
 # HTTPMessage, parse_headers(), and the HTTP status code constants are
@@ -205,14 +207,15 @@ def _encode(data, name='data'):
     try:
         return data.encode("latin-1")
     except UnicodeEncodeError as err:
-        raise UnicodeEncodeError(
+        new_err = UnicodeEncodeError(
             err.encoding,
             err.object,
             err.start,
             err.end,
             "%s (%.20r) is not valid Latin-1. Use %s.encode('utf-8') "
             "if you want to send it encoded in UTF-8." %
-            (name.title(), data[err.start:err.end], name)) from None
+            (name.title(), data[err.start:err.end], name))
+        six.raise_from(new_err, None)
 
 
 class HTTPMessage(email.message.Message):
