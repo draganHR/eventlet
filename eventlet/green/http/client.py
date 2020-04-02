@@ -121,6 +121,7 @@ Unread-response                _CS_IDLE           <response_class>
 Req-started-unread-response    _CS_REQ_STARTED    <response_class>
 Req-sent-unread-response       _CS_REQ_SENT       <response_class>
 """
+from __future__ import print_function
 
 import email.parser
 import email.message
